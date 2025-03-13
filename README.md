@@ -58,8 +58,6 @@ GET /v2/accounts/{account_id}/balance
 
 #### Request Methods
 The following example represents `cURL` and `Node.js` request methods. 
-<details>
-  <summary>Request Methods</summary>
   
   <details>
     <summary>cURL</summary>
@@ -82,14 +80,11 @@ The following example represents `cURL` and `Node.js` request methods.
     .catch(error => console.error(error));
 
   </details>
-</details>
+
 
 #### Success Response
 For successful request, you will receive a success response. The following example covers `JSON` and `C#` examples.
 
-<details>
-  <summary>Success Requests</summary>
-  
   <details>
     <summary>JSON Response</summary>
     
@@ -112,7 +107,6 @@ For successful request, you will receive a success response. The following examp
     public string Currency { get; set; }
 }
   </details>
-</details>
 
 ### Fund Transfer
 Transfer funds between two bank accoutns using the following endpoint:
@@ -130,9 +124,7 @@ POST /v2/accounts/{account_id}/transfer
 
 #### Request Methods
 The following example represents `cURL` and `Node.js` request methods. 
-<details>
-  <summary>Request Methods</summary>
-  
+
   <details>
     <summary>cURL</summary>
     
@@ -162,15 +154,10 @@ The following example represents `cURL` and `Node.js` request methods.
     .then(response => console.log(response.data))
     .catch(error => console.error(error));
   </details>
-  
-</details>
 
 #### Success Response
 For successful request, you will receive a success response.
 
-<details>
-  <summary>Success Requests</summary>
-  
   <details>
     <summary>JSON Response</summary>
     
@@ -195,7 +182,6 @@ For successful request, you will receive a success response.
     public DateTime Timestamp { get; set; }
 }
   </details>
-</details>
 
 ## 4. Error Response 
 The API returns error codes along with information about the error. Here are some common error responses:
@@ -210,9 +196,6 @@ The API returns error codes along with information about the error. Here are som
 | 500         | `Internal Server Error` |A problem occurred on the bank's server.         |
 
 Some examples of error responses:
-
-<details>
-  <summary>Error Responses</summary>
   
   <details>
     <summary>JSON</summary>
@@ -233,8 +216,6 @@ public class ErrorResponse
     public string Message { get; set; }
 }
   </details>
-  
-</details>
 
 ## 5. Release notes
 
