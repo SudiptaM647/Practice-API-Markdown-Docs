@@ -1,5 +1,5 @@
 > **Important**
-> **This a sample Banking API Document. It is not used for any operation.**
+> This a sample Banking API Document for practicing Marckdown and API Documentation methods. It is not used for any operation.
 
 # Bank API Documentation 
 
@@ -10,9 +10,9 @@ This documentation provides information about each endpoint in the API with thei
 #### Contents
 
 ## Overview
-Bank’s API is a JSON and C# based OAuth2 API. All requests are made to endpoints beginning:
+Bank’s API is a `JSON` and `C#` based `OAuth2 API`. All requests are made to endpoints beginning:
 
-`https://api.medium.com/v1`
+`https://api.medium.com/v2`
 
 All requests are served over `HTTPS`. To ensure data privacy, unencrypted `HTTP` is not supported.
 
@@ -26,19 +26,6 @@ All requests require an API key for authentication. The API accepts HTTP basic a
 GET /accounts
 
 Authorization: Bearer YOUR_API_KEY
-
-The API accepts HTTP basic authentication (also known as basic authentication) for some endpoints that do not access specific customer information. Follow these steps to use basic authentication:
-
-curl -X GET --user 123abc456def:1a2b3c4d \
-"https://api.shutterstock.com/v2/images/search" \
-  -G \
-  --data-urlencode "query=sunrise"
-Create an account at https://www.shutterstock.com if you don't already have one.
-Set up an application at https://www.shutterstock.com/account/developers/apps and get the consumer key and consumer secret from the application.
-Pass the consumer key and consumer secret to the API along with the request. For example, you can use basic authentication to search for images by using the GET /v2/images/search endpoint. The example in the right-hand pane passes the ID and secret (in this case, 123abc456def and 1a2b3c4d) in place of a user name and password.
-API endpoints that require an OAuth scope do not accept basic authentication. To use these endpoints, you must use OAuth authentication.
-
-
 ```
 #### b) Query Parameter Authentication
 ```
@@ -58,23 +45,201 @@ If authentication fails, you receive:
 ## 3. Endpoints
 
 ### Get Account Balance
+You can check the account balance using the following endpoint:
 
+```
+GET /v2/accounts/{account_id}/balance
+```
+**Request Parameter**
+
+| Parameter       | Type     | Required?  | Description                                     |
+| -------------   |----------|------------|-------------------------------------------------|
+| `account_id`     | string   | required   | The unique identifier for the bank account. |
+
+#### Request Methods
+The following example represents `cURL` and `Node.js` request methods. 
 <details>
-  <summary>Languages</summary>
+  <summary>Request Methods</summary>
   
   <details>
-    <summary>Python</summary>
+    <summary>cURL</summary>
     
-    Python is a popular programming language.
+    curl -X GET "https://api.banksecure.com/v2/accounts/123456789/balance" \
+     -H "Authorization: Bearer YOUR_API_KEY" \
+     -H "Content-Type: application/json"
 
   </details>
 
   <details>
-    <summary>Java</summary>
+    <summary>Node.js</summary>
     
-    Java is widely used in enterprise applications.
+    const axios = require('axios');
+
+    axios.get('https://api.banksecure.com/v2/accounts/123456789/balance', {
+      headers: { Authorization: 'Bearer YOUR_API_KEY' }
+      })
+    .then(response => console.log(response.data))
+    .catch(error => console.error(error));
+
+  </details>
+</details>
+
+#### Success Response
+For successful request, you will receive a success response. The following example covers `JSON` and `C#` examples.
+
+<details>
+  <summary>Success Requests</summary>
+  
+  <details>
+    <summary>JSON Response</summary>
+    
+    const axios = require('axios');
+
+    axios.get('https://api.banksecure.com/v2/accounts/123456789/balance', {
+    headers: { Authorization: 'Bearer YOUR_API_KEY' }
+    })
+    .then(response => console.log(response.data))
+    .catch(error => console.error(error));
+
+  </details>
+  <details>
+    <summary>C# Response</summary>
+    
+    public class AccountBalanceResponse
+{
+    public string AccountId { get; set; }
+    public decimal Balance { get; set; }
+    public string Currency { get; set; }
+}
+  </details>
+</details>
+
+### Fund Transfer
+Transfer funds between two bank accoutns using the following endpoint:
+```
+POST /v2/accounts/{account_id}/transfer
+```
+**Request Parameter**
+
+| Parameter       | Type     | Required?  | Description                                     |
+| -------------   |----------|------------|-------------------------------------------------|
+| `account_id`    | string   | required   | The unique identifier for the sender bank account. |
+| `recipient_id`  | string   | required   | The unique identifier for the recipient bank account. |
+| `amount`  | decimal   | required   | The value of transfer amount. |
+| `currency`  | string   | required   | The currency of the transaction. |
+
+#### Request Methods
+The following example represents `cURL` and `Node.js` request methods. 
+<details>
+  <summary>Request Methods</summary>
+  
+  <details>
+    <summary>cURL</summary>
+    
+    curl -X POST "https://api.banksecure.com/v2/accounts/123456789/transfer" \
+     -H "Authorization: Bearer YOUR_API_KEY" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "recipient_id": "987654321",
+           "amount": 500.00,
+           "currency": "USD"
+         }'
 
   </details>
 
+  <details>
+    <summary>Node.js</summary>
+    
+    const axios = require('axios');
+
+    axios.post('https://api.banksecure.com/v2/accounts/123456789/transfer', {
+    recipient_id: "987654321",
+    amount: 500.00,
+    currency: "USD"
+    }, {
+    headers: { Authorization: 'Bearer YOUR_API_KEY' }
+    })
+    .then(response => console.log(response.data))
+    .catch(error => console.error(error));
+  </details>
+  
 </details>
 
+#### Success Response
+For successful request, you will receive a success response.
+
+<details>
+  <summary>Success Requests</summary>
+  
+  <details>
+    <summary>JSON Response</summary>
+    
+    {
+    "transaction_id": "TRX123456",
+    "status": "Success",
+    "amount": 500.00,
+    "currency": "USD",
+    "timestamp": "2025-03-04T10:15:30Z"
+    }
+
+  </details>
+  <details>
+    <summary>C# Response</summary>
+    
+   public class TransferResponse
+{
+    public string TransactionId { get; set; }
+    public string Status { get; set; }
+    public decimal Amount { get; set; }
+    public string Currency { get; set; }
+    public DateTime Timestamp { get; set; }
+}
+  </details>
+</details>
+
+## 4. Error Response 
+The API returns error codes along with information about the error. Here are some common error responses:
+
+| Error code  | Error Message           | Description                                     |
+| ------------|-------------------------|-------------------------------------------------|
+| 400         | `Invalid request`       |The request contains invalid `parameters`.       |
+| 401         | `Unauthorized`          |The API key is missing or invalid.               |
+| 403         | `Forbidden`             |The user doesn’t have permission.                |
+| 404         | `Account Not Fount`     |The specified account ID doesn’t exist.          |
+| 429         | `Rate Limit Exceeded`   |Too many requests in a short period.             |
+| 500         | `Internal Server Error` |A problem occurred on the bank's server.         |
+
+Some examples of error responses:
+
+<details>
+  <summary>Error Responses</summary>
+  
+  <details>
+    <summary>JSON</summary>
+    
+    {
+    "error": {
+    "code": 400,
+    "message": "Invalid request. Please check your parameters."
+    }
+    }
+  </details>
+
+  <details>
+    <summary>C#</summary>
+public class ErrorResponse
+{
+    public int Code { get; set; }
+    public string Message { get; set; }
+}
+  </details>
+  
+</details>
+
+## 5. Release notes
+
+**2025-01-14 (v2.1.0)**
+Removed the following unused endpoints due to service deprecation:
+```
+GET https://api.banksecure.com/v1/accounts/
+```
